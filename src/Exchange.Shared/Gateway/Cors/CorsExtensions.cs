@@ -1,0 +1,75 @@
+﻿using Convey;
+
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Exchange.Shared.Gateway.Cors
+{
+    public static class CorsExtensions
+    {
+        public static IConveyBuilder AddSecuredCors(
+            this IConveyBuilder builder,
+            string corsName = "SecurityPolicy",
+            string corsSectionName = "cors")
+        {
+            var webOptions = builder.GetOptions<CorsOptions>(corsSectionName);
+
+            if (webOptions.Enabled)
+            {
+                builder.Services.AddCors(
+                    options =>
+                    {
+                        options.AddPolicy(
+                            corsName,
+                            corsPolicyBuilder =>
+                            {
+                                corsPolicyBuilder.AllowCredentials()
+                                    .WithOrigins(webOptions.Domains)
+                                    .WithMethods(webOptions.Methods)
+                                    .WithExposedHeaders(webOptions.ExposedHeaders)
+                                    .WithHeaders(webOptions.Headers);
+                            });
+                    });
+            }
+
+            return builder;
+        }
+
+        public static IConveyBuilder AddUnsecuredCors(
+            this IConveyBuilder builder,
+            string corsName = "AllowAnyPolicy")
+        {
+            builder.Services.AddCors(
+                options =>
+                {
+                    options.AddPolicy(
+                        corsName,
+                        corsPolicyBuilder =>
+                        {
+                            corsPolicyBuilder.AllowCredentials()
+                                .AllowAnyOrigin()
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                        });
+                });
+
+            return builder;
+        }
+
+        public static IApplicationBuilder UseSecuredCors(
+            this IApplicationBuilder builder,
+            string corsName = "SecurityPolicy",
+            string corsSectionName = "cors")
+        {
+            var options = builder.ApplicationServices.GetService<IConfiguration>()
+                .GetOptions<CorsOptions>(corsSectionName);
+            return options.Enabled ? builder.UseCors(corsName) : builder;
+        }
+
+        public static IApplicationBuilder UseUnsecuredCors(
+            this IApplicationBuilder builder,
+            string corsName = "AllowAnyPolicy") =>
+            builder.UseCors(corsName);
+    }
+}

@@ -1,0 +1,61 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <LangVersion>9.0</LangVersion>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;1591</NoWarn>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+    <AdditionalFiles Include="..\Settings.StyleCop" Link="Settings.StyleCop" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="App.Metrics" Version="4.1.0" />
+    <PackageReference Include="Convey" Version="0.5.422" />
+    <PackageReference Include="Convey.Auth" Version="0.5.422" />
+    <PackageReference Include="Convey.CQRS.Commands" Version="0.5.422" />
+    <PackageReference Include="Convey.CQRS.Events" Version="0.5.422" />
+    <PackageReference Include="Convey.CQRS.Queries" Version="0.5.422" />
+    <PackageReference Include="Convey.Discovery.Consul" Version="0.5.422" />
+    <PackageReference Include="Convey.HTTP" Version="0.5.422" />
+    <PackageReference Include="Convey.LoadBalancing.Fabio" Version="0.5.422" />
+    <PackageReference Include="Convey.Logging" Version="0.5.422" />
+    <PackageReference Include="Convey.Logging.CQRS" Version="0.5.422" />
+    <PackageReference Include="Convey.MessageBrokers" Version="0.5.422" />
+    <PackageReference Include="Convey.MessageBrokers.Outbox" Version="0.5.422" />
+    <PackageReference Include="Convey.MessageBrokers.Outbox.Mongo" Version="0.5.422" />
+    <PackageReference Include="Convey.Metrics.AppMetrics" Version="0.5.422" />
+    <PackageReference Include="Convey.Persistence.MongoDB" Version="0.5.422" />
+    <PackageReference Include="Convey.Persistence.Redis" Version="0.5.422" />
+    <PackageReference Include="Convey.Security" Version="0.5.422" />
+    <PackageReference Include="Convey.Tracing.Jaeger" Version="0.5.422" />
+    <PackageReference Include="Convey.Tracing.Jaeger.RabbitMQ" Version="0.5.422" />
+    <PackageReference Include="Convey.WebApi" Version="0.5.422" />
+    <PackageReference Include="Convey.WebApi.CQRS" Version="0.5.422" />
+    <PackageReference Include="Ensure.That" Version="9.2.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2020.3.0" />
+    <PackageReference Include="MMLib.SwaggerForOcelot" Version="4.0.1" />
+    <PackageReference Include="NEventStore" Version="8.0.0" />
+    <PackageReference Include="NEventStore.Persistence.MongoDB" Version="8.0.0" />
+    <PackageReference Include="NEventStore.Serialization.Bson" Version="8.0.0" />
+    <PackageReference Include="Ocelot" Version="17.0.0" />
+    <PackageReference Include="Ocelot.Provider.Consul" Version="17.0.0" />
+    <PackageReference Include="Ocelot.Provider.Polly" Version="17.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.0.1" />
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Exchange.Analyzers\Exchange.Analyzers.csproj" />
+  </ItemGroup>
+
+</Project>
