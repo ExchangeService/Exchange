@@ -1,0 +1,86 @@
+{
+  "name": "exchange",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "e2e": "ng e2e",
+
+    "build:browser:dev": "ng build --configuration dev",
+    "build:browser:prod": "ng build --configuration production",
+    "build:browser:local": "ng build --configuration local",
+    "run:browser": "http-server -p 8210  dist/eshop/browser",
+
+    "lint": "npm run memoryNg lint exchange",
+    "lint:fix": "tsc --noEmit && eslint . --quiet --fix",
+    "memoryLint": "node --max_old_space_size=8000 ./node_modules/eslint",
+    "memoryNg": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng",
+    "format": "node ./format.js",
+
+    "test": "jest",
+    "test:watch": "jest --watch --coverage",
+    "test:coverage": "jest --silent --coverage",
+
+    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points"
+  },
+  "main": "./src/main.ts",
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "~11.1.2",
+    "@angular/common": "~11.1.2",
+    "@angular/compiler": "~11.1.2",
+    "@angular/core": "~11.1.2",
+    "@angular/forms": "~11.1.2",
+    "@angular/platform-browser": "~11.1.2",
+    "@angular/platform-browser-dynamic": "~11.1.2",
+    "@angular/router": "~11.1.2",
+    "rxjs": "~6.6.0",
+    "tslib": "^2.0.0",
+    "zone.js": "~0.11.3"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "~0.1101.4",
+    "@angular-eslint/builder": "^1.2.0",
+    "@angular-eslint/eslint-plugin": "^1.2.0",
+    "@angular-eslint/eslint-plugin-template": "^1.2.0",
+    "@angular-eslint/schematics": "^1.2.0",
+    "@angular-eslint/template-parser": "^1.2.0",
+    "@angular/cli": "~11.1.4",
+    "@angular/compiler-cli": "~11.1.2",
+    "@angular/language-service": "^11.1.2",
+    "@angularclass/hmr": "^3.0.0",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^12.11.1",
+    "@typescript-eslint/eslint-plugin": "^4.15.0",
+    "@typescript-eslint/parser": "^4.15.0",
+    "codelyzer": "^6.0.0",
+    "eslint": "^7.19.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsdoc": "^31.6.1",
+    "eslint-plugin-prefer-arrow": "^1.2.3",
+    "glob": "^7.1.6",
+    "husky": "^5.0.9",
+    "jest": "^26.6.3",
+    "jest-marbles": "^2.5.1",
+    "jest-preset-angular": "^8.3.2",
+    "js-beautify": "^1.13.5",
+    "lint-staged": "^10.5.4",
+    "prettier": "^2.2.1",
+    "ts-node": "~8.3.0",
+    "typescript": "~4.1.2"
+  },
+  "lint-staged": {
+    "*.(html)": [
+      "node format.js"
+    ],
+    "*.(ts)": [
+      "npm run lint:fix",
+      "prettier --write ./src"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}

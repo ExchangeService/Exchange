@@ -50,12 +50,13 @@ namespace Exchange.Shared.Communication
                     .AsImplementedInterfaces()
                     .WithTransientLifetime());
 
-            return builder.AddCommandHandlers()
+            return builder
+                .AddQueryHandlers()
+                .AddCommandHandlers()
                 .AddEventHandlers()
+                .AddInMemoryQueryDispatcher()
                 .AddInMemoryEventDispatcher()
                 .AddInMemoryCommandDispatcher()
-                .AddQueryHandlers()
-                .AddInMemoryQueryDispatcher()
                 .AddHttpClient()
                 .AddHttpRouting(documentationAssemblies, serviceName)
                 .AddConsul()
