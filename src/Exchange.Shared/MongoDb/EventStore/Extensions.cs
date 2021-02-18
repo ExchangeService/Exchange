@@ -22,7 +22,7 @@ namespace Exchange.Shared.MongoDb.EventStore
 
             foreach (var t in types)
             {
-                BsonClassMap.LookupClassMap(t);
+                _ = BsonClassMap.LookupClassMap(t);
             }
 
             return builder;
@@ -41,7 +41,7 @@ namespace Exchange.Shared.MongoDb.EventStore
             var options = builder.GetOptions<MongoDbOptions>(sectionName);
 
             var connectionString = $"{options.ConnectionString}/{options.Database}";
-            builder.Services.AddTransient<IEventStoreRepository<T>>(
+            _ = builder.Services.AddTransient<IEventStoreRepository<T>>(
                 services => new EventStoreRepository<T>(new EventStoreContext(connectionString)));
 
             return builder;

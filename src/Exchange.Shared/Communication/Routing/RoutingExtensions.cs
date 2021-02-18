@@ -16,7 +16,7 @@ namespace Exchange.Shared.Communication.Routing
     {
         public static IConveyBuilder AddDocumentation(this IConveyBuilder builder, List<string> documentationAssemblies, string serviceName)
         {
-            builder.Services.AddSwaggerGen(
+            _ = builder.Services.AddSwaggerGen(
                 c =>
                 {
                     c.DescribeAllParametersInCamelCase();
@@ -64,9 +64,10 @@ namespace Exchange.Shared.Communication.Routing
 
         public static IConveyBuilder AddHttpRouting(this IConveyBuilder builder, List<string> documentationAssemblies, string serviceName)
         {
-            builder.Services.AddControllers();
+            _ = builder.Services
+                .AddControllers();
 
-            builder.Services.AddMvc(options => { })
+            _ = builder.Services.AddMvc(options => { })
                 .SetCompatibilityVersion(CompatibilityVersion.Latest)
                 .AddJsonOptions(_ => { });
 
@@ -84,7 +85,7 @@ namespace Exchange.Shared.Communication.Routing
                 .UseEndpoints(
                     endpoints =>
                     {
-                        endpoints.MapControllers();
+                        _ = endpoints.MapControllers();
                     })
                 .UseDocumentation();
     }

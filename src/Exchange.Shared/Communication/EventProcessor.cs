@@ -64,7 +64,7 @@ namespace Exchange.Shared.Communication
                 dynamic handlers = scope.ServiceProvider.GetServices(handlerType);
                 foreach (var handler in handlers)
                 {
-                    await handler.HandleAsync((dynamic)@event);
+                    _ = await handler.HandleAsync((dynamic)@event);
                 }
 
                 var integrationEvent = this.eventMapper.Map(@event);

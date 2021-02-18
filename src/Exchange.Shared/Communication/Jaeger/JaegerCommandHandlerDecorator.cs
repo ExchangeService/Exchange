@@ -30,14 +30,14 @@ namespace Exchange.Shared.Communication.Jaeger
 
             try
             {
-                span.Log($"Handling a message: {commandName}");
+                _ = span.Log($"Handling a message: {commandName}");
                 await this.handler.HandleAsync(command);
-                span.Log($"Handled a message: {commandName}");
+                _ = span.Log($"Handled a message: {commandName}");
             }
             catch (Exception ex)
             {
-                span.Log(ex.Message);
-                span.SetTag(Tags.Error, true);
+                _= span.Log(ex.Message);
+                _= span.SetTag(Tags.Error, true);
                 throw;
             }
         }
@@ -51,7 +51,7 @@ namespace Exchange.Shared.Communication.Jaeger
 
             if (this.tracer.ActiveSpan is { })
             {
-                scope.AddReference(References.ChildOf, this.tracer.ActiveSpan.Context);
+                _ = scope.AddReference(References.ChildOf, this.tracer.ActiveSpan.Context);
             }
 
             return scope.StartActive(true);

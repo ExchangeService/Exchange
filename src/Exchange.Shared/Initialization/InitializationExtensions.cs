@@ -8,7 +8,7 @@ namespace Exchange.Shared.Initialization
     {
         public static IConveyBuilder AddInitialization(this IConveyBuilder builder)
         {
-            builder.Services.AddHostedService<HostedInitializer>();
+            _ = builder.Services.AddHostedService<HostedInitializer>();
             return builder;
         }
     }

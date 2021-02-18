@@ -17,14 +17,14 @@ namespace Exchange.Shared.Gateway.Cors
 
             if (webOptions.Enabled)
             {
-                builder.Services.AddCors(
+                _ = builder.Services.AddCors(
                     options =>
                     {
                         options.AddPolicy(
                             corsName,
                             corsPolicyBuilder =>
                             {
-                                corsPolicyBuilder.AllowCredentials()
+                                _ = corsPolicyBuilder.AllowCredentials()
                                     .WithOrigins(webOptions.Domains)
                                     .WithMethods(webOptions.Methods)
                                     .WithExposedHeaders(webOptions.ExposedHeaders)
@@ -40,14 +40,14 @@ namespace Exchange.Shared.Gateway.Cors
             this IConveyBuilder builder,
             string corsName = "AllowAnyPolicy")
         {
-            builder.Services.AddCors(
+            _ = builder.Services.AddCors(
                 options =>
                 {
                     options.AddPolicy(
                         corsName,
                         corsPolicyBuilder =>
                         {
-                            corsPolicyBuilder.AllowCredentials()
+                            _ = corsPolicyBuilder.AllowCredentials()
                                 .AllowAnyOrigin()
                                 .AllowAnyHeader()
                                 .AllowAnyMethod();

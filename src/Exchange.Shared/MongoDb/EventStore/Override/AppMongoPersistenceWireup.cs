@@ -26,7 +26,7 @@ namespace Exchange.Shared.MongoDb.EventStore.Override
                 Logger.LogWarning("MongoDB does not participate in transactions using TransactionScope.");
             }
 
-            this.Container.Register(
+            _ = this.Container.Register(
                 _ => new AppMongoPersistenceFactory(connectionStringProvider, serializer, persistenceOptions).Build());
         }
     }

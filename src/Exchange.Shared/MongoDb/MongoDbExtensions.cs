@@ -17,8 +17,9 @@ namespace Exchange.Shared.MongoDb
     {
         public static IConveyBuilder AddMongoDb(this IConveyBuilder builder, string migrationDbName)
         {
-            builder.Services.AddTransient<IMigrationRepository, MigrationRepository>();
-            builder.Services.AddTransient<IMigrator, Migrator>();
+            _ = builder.Services
+                .AddTransient<IMigrationRepository, MigrationRepository>()
+                .AddTransient<IMigrator, Migrator>();
 
             var conventionPack = new ConventionPack
                                  {

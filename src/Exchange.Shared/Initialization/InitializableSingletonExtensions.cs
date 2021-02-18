@@ -11,9 +11,10 @@ namespace Exchange.Shared.Initialization
             where TInitializer : class, TInterfaceInitializer, ISingletonInitializerAsync
             where TInterfaceInitializer : class
         {
-            builder.Services.AddSingleton<TInitializer>();
-            builder.Services.AddSingleton<TInterfaceInitializer>(sp => sp.GetRequiredService<TInitializer>());
-            builder.Services.AddSingleton<ISingletonInitializerAsync>(sp => sp.GetRequiredService<TInitializer>());
+            _ = builder.Services
+                .AddSingleton<TInitializer>()
+                .AddSingleton<TInterfaceInitializer>(sp => sp.GetRequiredService<TInitializer>())
+                .AddSingleton<ISingletonInitializerAsync>(sp => sp.GetRequiredService<TInitializer>());
 
             return builder;
         }
@@ -23,9 +24,10 @@ namespace Exchange.Shared.Initialization
             where TInitializer : class, TInterfaceInitializer, ISingletonInitializer
             where TInterfaceInitializer : class
         {
-            builder.Services.AddSingleton<TInitializer>();
-            builder.Services.AddSingleton<TInterfaceInitializer>(sp => sp.GetRequiredService<TInitializer>());
-            builder.Services.AddSingleton<ISingletonInitializer>(sp => sp.GetRequiredService<TInitializer>());
+            _ = builder.Services
+                .AddSingleton<TInitializer>()
+                .AddSingleton<TInterfaceInitializer>(sp => sp.GetRequiredService<TInitializer>())
+                .AddSingleton<ISingletonInitializer>(sp => sp.GetRequiredService<TInitializer>());
 
             return builder;
         }

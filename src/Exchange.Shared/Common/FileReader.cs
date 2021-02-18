@@ -23,7 +23,7 @@ namespace Exchange.Shared.Common
         {
             await using var sourceStream = File.Open(path, FileMode.Open);
             var result = new byte[sourceStream.Length];
-            await sourceStream.ReadAsync(result.AsMemory(0, (int)sourceStream.Length));
+            _ = await sourceStream.ReadAsync(result.AsMemory(0, (int)sourceStream.Length));
 
             return Encoding.ASCII.GetString(result);
         }

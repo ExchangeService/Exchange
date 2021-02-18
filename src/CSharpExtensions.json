@@ -1,0 +1,9 @@
+{
+  "CSE005": {
+    "IgnoredReturnTypes": [
+      "Microsoft.Extensions.DependencyInjection.IServiceCollection",
+      "Microsoft.Extensions.Configuration.IConfigurationBuilder",
+      "Microsoft.Extensions.Logging.ILoggingBuilder"
+    ]
+  }
+}

@@ -92,5 +92,9 @@ dotnet_diagnostic.CS3024.severity = none
 #warning SA1413: Use trailing comma in multi-line initializers not supported by Settings.StyleCop
 dotnet_diagnostic.SA1413.severity = none
 
-#not supported language
+#not supported language  not supported by Settings.StyleCop
 dotnet_diagnostic.SA0102.severity = none
+
+
+#pure function
+dotnet_diagnostic.CSE005.severity = error

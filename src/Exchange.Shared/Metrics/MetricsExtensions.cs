@@ -13,16 +13,17 @@ namespace Exchange.Shared.Metrics
     {
         public static IConveyBuilder AddAppMetrics(this IConveyBuilder builder)
         {
-            builder.Services.AddHostedService<MetricsJob>();
-            builder.Services.AddSingleton<CustomMetricsMiddleware>();
-            builder.Services.AddSingleton<IAppMetricProvider, AppMetricProvider>();
+            _ = builder.Services
+                .AddHostedService<MetricsJob>()
+                .AddSingleton<CustomMetricsMiddleware>()
+                .AddSingleton<IAppMetricProvider, AppMetricProvider>();
 
             return builder.AddMetrics();
         }
 
-        public static void AddCommandMetric(this IConveyBuilder builder, string key, string command)
+        public static IConveyBuilder AddCommandMetric(this IConveyBuilder builder, string key, string command)
         {
-            builder.Services.AddSingleton<IAppMetric>(
+            _ = builder.Services.AddSingleton<IAppMetric>(
                 new AppMetric(
                     new CounterOptions()
                     {
@@ -30,11 +31,13 @@ namespace Exchange.Shared.Metrics
                         Tags = new MetricTags("command", command)
                     },
                     key));
+
+            return builder;
         }
 
-        public static void AddQueryMetric(this IConveyBuilder builder, string key, string query)
+        public static IConveyBuilder AddQueryMetric(this IConveyBuilder builder, string key, string query)
         {
-            builder.Services.AddSingleton<IAppMetric>(
+            _ = builder.Services.AddSingleton<IAppMetric>(
                 new AppMetric(
                     new CounterOptions()
                     {
@@ -42,6 +45,8 @@ namespace Exchange.Shared.Metrics
                         Tags = new MetricTags("query", query)
                     },
                     key));
+
+            return builder;
         }
 
         public static IApplicationBuilder UseAppMetrics(this IApplicationBuilder builder) =>

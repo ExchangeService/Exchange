@@ -30,7 +30,7 @@ namespace Exchange.Shared.Core
                 this.Version++;
             }
 
-            this.events.Add(@event);
+            _ = this.events.Add(@event);
         }
 
         protected void AddEventToList(IDomainEvent @event) => this.events.Add(@event);

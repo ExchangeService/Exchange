@@ -12,8 +12,8 @@ namespace Exchange.Shared.Outbox
     {
         public static IConveyBuilder AddOutbox(this IConveyBuilder builder)
         {
-            builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(OutboxCommandHandlerDecorator<>));
-            builder.Services.TryDecorate(typeof(IEventHandler<>), typeof(OutboxEventHandlerDecorator<>));
+            _ = builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(OutboxCommandHandlerDecorator<>));
+            _ = builder.Services.TryDecorate(typeof(IEventHandler<>), typeof(OutboxEventHandlerDecorator<>));
 
             return builder
                 .AddMessageOutbox(o => o.AddMongo());

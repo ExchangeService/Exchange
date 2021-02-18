@@ -15,7 +15,7 @@ namespace Exchange.Shared.Logging
             T logTemplateMapper)
             where T : class, IMessageToLogTemplateMapper
         {
-            builder.Services.AddSingleton<IMessageToLogTemplateMapper>(logTemplateMapper);
+            _ = builder.Services.AddSingleton<IMessageToLogTemplateMapper>(logTemplateMapper);
 
             return builder
                 .AddCommandHandlersLogging(assembly)

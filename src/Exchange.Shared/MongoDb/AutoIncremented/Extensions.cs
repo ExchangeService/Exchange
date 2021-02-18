@@ -8,7 +8,7 @@ namespace Exchange.Shared.MongoDb.AutoIncremented
     {
         public static IConveyBuilder AddAutoIncrementedRepository(this IConveyBuilder builder)
         {
-            builder.Services.AddTransient<IAutoIncrementedDocumentRepository, AutoIncrementedDocumentRepository>();
+            _ = builder.Services.AddTransient<IAutoIncrementedDocumentRepository, AutoIncrementedDocumentRepository>();
 
             return builder;
         }

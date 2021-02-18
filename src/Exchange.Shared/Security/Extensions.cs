@@ -25,7 +25,7 @@ namespace Exchange.Shared.Security
 
         public static IConveyBuilder AddAuth(this IConveyBuilder builder)
         {
-            builder.Services.AddTransient<IUserDetailsProvider, UserDetailsProvider>();
+            _ = builder.Services.AddTransient<IUserDetailsProvider, UserDetailsProvider>();
 
             return builder
                 .AddJwt();

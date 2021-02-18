@@ -65,7 +65,8 @@ namespace Exchange.Shared.Gateway.Infrastructure
                 spanContext,
                 language,
                 resourceId: resourceId);
-            request.Headers.TryAddWithoutValidation(
+
+            _ = request.Headers.TryAddWithoutValidation(
                 "Correlation-Context",
                 JsonConvert.SerializeObject(correlationContext));
 

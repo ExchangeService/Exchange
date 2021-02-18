@@ -24,8 +24,9 @@ namespace Exchange.Shared.Language
             string defaultLanguage,
             List<string> supportingLanguages)
         {
-            builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
-            builder.Services.Configure<RequestLocalizationOptions>(
+            _ = builder.Services
+                .AddLocalization(options => options.ResourcesPath = "Resources")
+                .Configure<RequestLocalizationOptions>(
                 opts =>
                 {
                     var supportedCultures = supportingLanguages.Select(e => new CultureInfo(e)).ToList();
@@ -48,11 +49,11 @@ namespace Exchange.Shared.Language
                             }));
                 });
 
-            builder.Services.TryDecorate(
+            _ = builder.Services.TryDecorate(
                 typeof(ICommandHandler<>),
                 typeof(CorrelationContextCommandHandlerDecorator<>));
-            builder.Services.TryDecorate(typeof(IEventHandler<>), typeof(CorrelationContextEventHandlerDecorator<>));
-            builder.Services.TryDecorate(typeof(IQueryHandler<,>), typeof(CorrelationContextQueryHandlerDecorator<,>));
+            _ = builder.Services.TryDecorate(typeof(IEventHandler<>), typeof(CorrelationContextEventHandlerDecorator<>));
+            _ = builder.Services.TryDecorate(typeof(IQueryHandler<,>), typeof(CorrelationContextQueryHandlerDecorator<,>));
 
             return builder;
         }

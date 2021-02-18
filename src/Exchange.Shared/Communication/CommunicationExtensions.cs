@@ -31,24 +31,22 @@ namespace Exchange.Shared.Communication
             List<string> documentationAssemblies,
             string serviceName)
         {
-            builder.Services.AddTransient(
-                ctx => ctx.GetRequiredService<IAppContextFactory>()
-                    .Create());
-            builder.Services.AddTransient<IAppContextFactory, AppContextFactory>();
-            builder.Services.AddScoped<IRequestContextAccessor, RequestContextAccessor>();
-            builder.Services.AddTransient<ICommunicationClient, CommunicationClient>();
+            _ = builder.Services
+                .AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>()
+                    .Create())
+                .AddTransient<IAppContextFactory, AppContextFactory>()
+                .AddScoped<IRequestContextAccessor, RequestContextAccessor>()
+                .AddTransient<ICommunicationClient, CommunicationClient>()
+                .AddTransient<IMessageBroker, MessageBroker>()
+                .AddTransient<IEventProcessor, EventProcessor>()
+                .AddTransient<IEventProcessor, EventProcessor>()
+                .Scan(
+                    s => s.FromAssemblies(eventsHandlerAssembliesToScan)
+                        .AddClasses(c => c.AssignableTo(typeof(IDomainEventHandler<>)))
+                        .AsImplementedInterfaces()
+                        .WithTransientLifetime());
 
-            builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(JaegerCommandHandlerDecorator<>));
-
-            builder.Services.AddTransient<IMessageBroker, MessageBroker>();
-
-            builder.Services.AddTransient<IEventProcessor, EventProcessor>();
-
-            builder.Services.Scan(
-                s => s.FromAssemblies(eventsHandlerAssembliesToScan)
-                    .AddClasses(c => c.AssignableTo(typeof(IDomainEventHandler<>)))
-                    .AsImplementedInterfaces()
-                    .WithTransientLifetime());
+            _ = builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(JaegerCommandHandlerDecorator<>));
 
             return builder
                 .AddQueryHandlers()
@@ -67,13 +65,12 @@ namespace Exchange.Shared.Communication
 
         public static IApplicationBuilder UseCommunication(this IApplicationBuilder builder)
         {
-            builder.UseHttpRouting()
+            _ = builder.UseRabbitMq();
+
+            return builder.UseHttpRouting()
                 .UsePublicContracts<ContractAttribute>()
                 .UseJaeger()
-                .UseConvey()
-                .UseRabbitMq();
-
-            return builder;
+                .UseConvey();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace AAS.Architecture.Security
 
             foreach (var t in data)
             {
-                sBuilder.Append(t.ToString("x2"));
+                _ = sBuilder.Append(t.ToString("x2"));
             }
             return sBuilder.ToString();
         }

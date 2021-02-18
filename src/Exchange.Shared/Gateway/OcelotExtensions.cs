@@ -27,12 +27,14 @@ namespace Exchange.Shared.Gateway
     {
         public static IConveyBuilder AddGatewayInfrastructure(this IConveyBuilder builder, IConfiguration configuration)
         {
-            builder.Services.AddSingleton<IPayloadBuilder, PayloadBuilder>();
-            builder.Services.AddSingleton<ICorrelationContextBuilder, CorrelationContextBuilder>();
-            builder.Services.AddTransient<ResourceIdGeneratorMiddleware>();
-            builder.AddErrorHandler<DefaultExceptionToResponseMapper>();
+            _ = builder.Services
+                .AddSingleton<IPayloadBuilder, PayloadBuilder>()
+                .AddSingleton<ICorrelationContextBuilder, CorrelationContextBuilder>()
+                .AddTransient<ResourceIdGeneratorMiddleware>();
 
-            return builder.AddJaeger()
+            return builder
+                .AddErrorHandler<DefaultExceptionToResponseMapper>()
+                .AddJaeger()
                 .AddJwt()
                 .AddSecurity()
                 .AddWebApi()
@@ -41,43 +43,42 @@ namespace Exchange.Shared.Gateway
         
         public static IApplicationBuilder UseGatewayInfrastructure(this IApplicationBuilder app)
         {
-            app.UseConvey();
-            app.UseErrorHandler();
-            app.UseAuth();
-            app.UseRabbitMq();
-            app.MapWhen(
-                ctx => ctx.Request.Path == "/",
-                a =>
-                {
-                    a.Use(
-                        (ctx, next) =>
-                        {
-                            var appOptions = ctx.RequestServices.GetRequiredService<AppOptions>();
-                            return ctx.Response.WriteAsync(appOptions.Name);
-                        });
-                });
+            _ = app.UseRabbitMq();
 
             return app
-                .UseOcelotInfrastructure();
+                .UseConvey()
+                .UseErrorHandler()
+                .UseAuth()
+                .UseOcelotInfrastructure()
+                .MapWhen(
+                    ctx => ctx.Request.Path == "/",
+                    a =>
+                    {
+                        _ = a.Use(
+                            (ctx, next) =>
+                            {
+                                var appOptions = ctx.RequestServices.GetRequiredService<AppOptions>();
+                                return ctx.Response.WriteAsync(appOptions.Name);
+                            });
+                    }); ;
         }
 
         public static IConveyBuilder AddOcelotInfrastructure(this IConveyBuilder builder, IConfiguration configuration)
         {
-            builder.Services.AddOcelot()
+            _ = builder.Services.AddOcelot()
                 .AddConsul()
                 .AddPolly()
                 .AddDelegatingHandler<CorrelationContextHandler>(true);
 
-            builder.Services.AddSwaggerForOcelot(configuration);
+            _ = builder.Services.AddSwaggerForOcelot(configuration);
 
             return builder;
         }
 
         public static IApplicationBuilder UseOcelotInfrastructure(this IApplicationBuilder app)
         {
-            app.UseMiddleware<ResourceIdGeneratorMiddleware>();
-
-            app.UseOcelot(GetOcelotConfiguration())
+            _ = app.UseMiddleware<ResourceIdGeneratorMiddleware>()
+                .UseOcelot(GetOcelotConfiguration())
                 .ConfigureAwait(false)
                 .GetAwaiter()
                 .GetResult();
