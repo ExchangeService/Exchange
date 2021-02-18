@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Convey.HTTP;
 
 using Exchange.Shared.Communication.Contexts;
+using Exchange.Shared.Communication.Exceptions;
 using Exchange.Shared.Exceptions;
 using Exchange.Shared.Extensions;
 using Exchange.Shared.Security;
@@ -35,7 +36,6 @@ namespace Exchange.Shared.Communication
         public CommunicationClient(
             IHttpClient client,
             IRequestContextAccessor contextAccessor,
-            IHttpContextAccessor httpContextAccessor,
             IUserDetailsProvider userDetailsProvider,
             HttpClientOptions options)
         {
@@ -68,7 +68,7 @@ namespace Exchange.Shared.Communication
                                var result = await this.client.GetAsync<T>(uri);
                                if (result is null)
                                {
-                                   throw new Exception("Result for this action could not be empty");
+                                   throw new CommunicationException("Result for this action could not be empty");
                                }
 
                                return result;

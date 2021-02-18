@@ -98,3 +98,7 @@ dotnet_diagnostic.SA0102.severity = none
 
 #pure function
 dotnet_diagnostic.CSE005.severity = error
+
+
+#exception
+dotnet_diagnostic.EX002.severity = suggestion

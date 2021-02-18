@@ -31,9 +31,9 @@ namespace Exchange.Shared.Communication
             List<string> documentationAssemblies,
             string serviceName)
         {
-            _ = builder.Services
-                .AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>()
-                    .Create())
+            _ = builder.Services.AddTransient(
+                    ctx => ctx.GetRequiredService<IAppContextFactory>()
+                        .Create())
                 .AddTransient<IAppContextFactory, AppContextFactory>()
                 .AddScoped<IRequestContextAccessor, RequestContextAccessor>()
                 .AddTransient<ICommunicationClient, CommunicationClient>()
@@ -48,8 +48,7 @@ namespace Exchange.Shared.Communication
 
             _ = builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(JaegerCommandHandlerDecorator<>));
 
-            return builder
-                .AddQueryHandlers()
+            return builder.AddQueryHandlers()
                 .AddCommandHandlers()
                 .AddEventHandlers()
                 .AddInMemoryQueryDispatcher()
